@@ -1,0 +1,21 @@
+name: Kafka Project Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            -w /app \
+            python:3.11-slim \
+            sh -c "pip install -q pytest && python -m pytest tests"
